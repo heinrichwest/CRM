@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using CRM.Services;
-using MudBlazor.Services;
 
 namespace CRM
 {
@@ -17,7 +16,6 @@ namespace CRM
                 });
 
             builder.Services.AddMauiBlazorWebView();
-            builder.Services.AddMudServices();
             builder.Services.AddSingleton<ClientService>();
             builder.Services.AddSingleton<UserService>();
 

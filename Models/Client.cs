@@ -11,5 +11,13 @@ namespace CRM.Models
 
         [Required, EmailAddress]
         public string Email { get; set; } = string.Empty;
+
+        public string CompanyName { get; set; } = string.Empty;
+
+        public string CompanyWebsite { get; set; } = string.Empty;
+
+        public string ContactNumber { get; set; } = string.Empty;
+
+        public string LastFeedback { get; set; } = string.Empty;
     }
 }

@@ -21,6 +21,10 @@ namespace CRM.Services
             {
                 existing.Name = client.Name;
                 existing.Email = client.Email;
+                existing.CompanyName = client.CompanyName;
+                existing.CompanyWebsite = client.CompanyWebsite;
+                existing.ContactNumber = client.ContactNumber;
+                existing.LastFeedback = client.LastFeedback;
             }
         }
 

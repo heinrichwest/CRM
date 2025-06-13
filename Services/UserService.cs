@@ -24,6 +24,7 @@ namespace CRM.Services
                 existing.Email = user.Email;
                 existing.Phone = user.Phone;
                 existing.Address = user.Address;
+                existing.Role = user.Role;
             }
         }
 

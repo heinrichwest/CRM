@@ -2,46 +2,65 @@
 @using CRM.Models
 @inject CRM.Services.ClientService clientService
 
-<MudText Typo="Typo.h4">Clients</MudText>
+<h1>Clients</h1>
 
 <EditForm Model="editClient" OnValidSubmit="HandleSubmit">
     <DataAnnotationsValidator />
-    <MudTextField Class="mb-3" @bind-Value="editClient.Name" Label="Name" />
-    <MudTextField Class="mb-3" @bind-Value="editClient.Email" Label="Email" />
-    <MudTextField Class="mb-3" @bind-Value="editClient.CompanyName" Label="Company Name" />
-    <MudTextField Class="mb-3" @bind-Value="editClient.CompanyWebsite" Label="Company Website" />
-    <MudTextField Class="mb-3" @bind-Value="editClient.ContactNumber" Label="Contact Number" />
-    <MudTextField Class="mb-3" @bind-Value="editClient.LastFeedback" Label="Last Feedback" />
-    <MudButton Type="Submit" Color="Color.Primary" Class="me-2">@submitText</MudButton>
+    <div class="mb-3">
+        <InputText @bind-Value="editClient.Name" class="form-control" placeholder="Name" />
+    </div>
+    <div class="mb-3">
+        <InputText @bind-Value="editClient.Email" class="form-control" placeholder="Email" />
+    </div>
+    <div class="mb-3">
+        <InputText @bind-Value="editClient.CompanyName" class="form-control" placeholder="Company Name" />
+    </div>
+    <div class="mb-3">
+        <InputText @bind-Value="editClient.CompanyWebsite" class="form-control" placeholder="Company Website" />
+    </div>
+    <div class="mb-3">
+        <InputText @bind-Value="editClient.ContactNumber" class="form-control" placeholder="Contact Number" />
+    </div>
+    <div class="mb-3">
+        <InputText @bind-Value="editClient.LastFeedback" class="form-control" placeholder="Last Feedback" />
+    </div>
+    <button type="submit" class="btn btn-primary me-2">@submitText</button>
     @if (isEditing)
     {
-        <MudButton OnClick="CancelEdit" Color="Color.Secondary">Cancel</MudButton>
+        <button type="button" class="btn btn-secondary" @onclick="CancelEdit">Cancel</button>
     }
 </EditForm>
 
-<MudTable Items="clients" Class="mt-4">
-    <HeaderContent>
-        <MudTh>Name</MudTh>
-        <MudTh>Email</MudTh>
-        <MudTh>Company Name</MudTh>
-        <MudTh>Website</MudTh>
-        <MudTh>Contact Number</MudTh>
-        <MudTh>Last Feedback</MudTh>
-        <MudTh></MudTh>
-    </HeaderContent>
-    <RowTemplate>
-        <MudTd DataLabel="Name">@context.Name</MudTd>
-        <MudTd DataLabel="Email">@context.Email</MudTd>
-        <MudTd DataLabel="Company Name">@context.CompanyName</MudTd>
-        <MudTd DataLabel="Website">@context.CompanyWebsite</MudTd>
-        <MudTd DataLabel="Contact Number">@context.ContactNumber</MudTd>
-        <MudTd DataLabel="Last Feedback">@context.LastFeedback</MudTd>
-        <MudTd>
-            <MudButton Variant="Variant.Text" Color="Color.Secondary" Size="Size.Small" Class="me-1" OnClick="() => Edit(context)">Edit</MudButton>
-            <MudButton Variant="Variant.Text" Color="Color.Error" Size="Size.Small" OnClick="() => Delete(context.Id)">Delete</MudButton>
-        </MudTd>
-    </RowTemplate>
-</MudTable>
+<table class="table mt-4">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Company Name</th>
+            <th>Website</th>
+            <th>Contact Number</th>
+            <th>Last Feedback</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in clients)
+        {
+            <tr>
+                <td>@c.Name</td>
+                <td>@c.Email</td>
+                <td>@c.CompanyName</td>
+                <td>@c.CompanyWebsite</td>
+                <td>@c.ContactNumber</td>
+                <td>@c.LastFeedback</td>
+                <td>
+                    <button class="btn btn-sm btn-secondary me-1" @onclick="() => Edit(c)">Edit</button>
+                    <button class="btn btn-sm btn-danger" @onclick="() => Delete(c.Id)">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 @code {
     private List<Client> clients = new();

@@ -1,0 +1,94 @@
+@page "/clients"
+@using CRM.Models
+@inject CRM.Services.ClientService clientService
+
+<h1>Clients</h1>
+
+<EditForm Model="editClient" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <InputText @bind-Value="editClient.Name" class="form-control" placeholder="Name" />
+    </div>
+    <div class="mb-3">
+        <InputText @bind-Value="editClient.Email" class="form-control" placeholder="Email" />
+    </div>
+    <button type="submit" class="btn btn-primary me-2">@submitText</button>
+    @if (isEditing)
+    {
+        <button type="button" class="btn btn-secondary" @onclick="CancelEdit">Cancel</button>
+    }
+</EditForm>
+
+<table class="table mt-4">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var c in clients)
+        {
+            <tr>
+                <td>@c.Name</td>
+                <td>@c.Email</td>
+                <td>
+                    <button class="btn btn-sm btn-secondary me-1" @onclick="() => Edit(c)">Edit</button>
+                    <button class="btn btn-sm btn-danger" @onclick="() => Delete(c.Id)">Delete</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private List<Client> clients = new();
+    private Client editClient = new();
+    private bool isEditing;
+
+    protected override void OnInitialized()
+    {
+        clients = clientService.GetClients().ToList();
+    }
+
+    private string submitText => isEditing ? "Update" : "Add";
+
+    private void HandleSubmit()
+    {
+        if (isEditing)
+        {
+            clientService.UpdateClient(editClient);
+        }
+        else
+        {
+            clientService.AddClient(new Client { Name = editClient.Name, Email = editClient.Email });
+        }
+        ResetForm();
+    }
+
+    private void Edit(Client client)
+    {
+        editClient = new Client { Id = client.Id, Name = client.Name, Email = client.Email };
+        isEditing = true;
+    }
+
+    private void Delete(int id)
+    {
+        clientService.DeleteClient(id);
+        ResetForm();
+    }
+
+    private void CancelEdit()
+    {
+        ResetForm();
+    }
+
+    private void ResetForm()
+    {
+        editClient = new Client();
+        isEditing = false;
+        clients = clientService.GetClients().ToList();
+        StateHasChanged();
+    }
+}

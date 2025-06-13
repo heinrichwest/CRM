@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using CRM.Services;
 
 namespace CRM
 {
@@ -15,6 +16,7 @@ namespace CRM
                 });
 
             builder.Services.AddMauiBlazorWebView();
+            builder.Services.AddSingleton<ClientService>();
 
 #if DEBUG
     		builder.Services.AddBlazorWebViewDeveloperTools();

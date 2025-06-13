@@ -17,6 +17,7 @@ namespace CRM
 
             builder.Services.AddMauiBlazorWebView();
             builder.Services.AddSingleton<ClientService>();
+            builder.Services.AddSingleton<UserService>();
 
 #if DEBUG
     		builder.Services.AddBlazorWebViewDeveloperTools();

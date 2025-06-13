@@ -2,60 +2,43 @@
 @using CRM.Models
 @inject CRM.Services.UserService userService
 
-<h1>Users</h1>
+<MudText Typo="Typo.h4">Users</MudText>
 
 <EditForm Model="editUser" OnValidSubmit="HandleSubmit">
     <DataAnnotationsValidator />
-    <div class="mb-3">
-        <InputText @bind-Value="editUser.FirstName" class="form-control" placeholder="First Name" />
-    </div>
-    <div class="mb-3">
-        <InputText @bind-Value="editUser.LastName" class="form-control" placeholder="Last Name" />
-    </div>
-    <div class="mb-3">
-        <InputText @bind-Value="editUser.Email" class="form-control" placeholder="Email" />
-    </div>
-    <div class="mb-3">
-        <InputText @bind-Value="editUser.Phone" class="form-control" placeholder="Phone" />
-    </div>
-    <div class="mb-3">
-        <InputText @bind-Value="editUser.Address" class="form-control" placeholder="Address" />
-    </div>
-    <button type="submit" class="btn btn-primary me-2">@submitText</button>
+    <MudTextField Class="mb-3" @bind-Value="editUser.FirstName" Label="First Name" />
+    <MudTextField Class="mb-3" @bind-Value="editUser.LastName" Label="Last Name" />
+    <MudTextField Class="mb-3" @bind-Value="editUser.Email" Label="Email" />
+    <MudTextField Class="mb-3" @bind-Value="editUser.Phone" Label="Phone" />
+    <MudTextField Class="mb-3" @bind-Value="editUser.Address" Label="Address" />
+    <MudButton Type="Submit" Color="Color.Primary" Class="me-2">@submitText</MudButton>
     @if (isEditing)
     {
-        <button type="button" class="btn btn-secondary" @onclick="CancelEdit">Cancel</button>
+        <MudButton OnClick="CancelEdit" Color="Color.Secondary">Cancel</MudButton>
     }
 </EditForm>
 
-<table class="table mt-4">
-    <thead>
-        <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Address</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var u in users)
-        {
-            <tr>
-                <td>@u.FirstName</td>
-                <td>@u.LastName</td>
-                <td>@u.Email</td>
-                <td>@u.Phone</td>
-                <td>@u.Address</td>
-                <td>
-                    <button class="btn btn-sm btn-secondary me-1" @onclick="() => Edit(u)">Edit</button>
-                    <button class="btn btn-sm btn-danger" @onclick="() => Delete(u.Id)">Delete</button>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<MudTable Items="users" Class="mt-4">
+    <HeaderContent>
+        <MudTh>First Name</MudTh>
+        <MudTh>Last Name</MudTh>
+        <MudTh>Email</MudTh>
+        <MudTh>Phone</MudTh>
+        <MudTh>Address</MudTh>
+        <MudTh></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="First Name">@context.FirstName</MudTd>
+        <MudTd DataLabel="Last Name">@context.LastName</MudTd>
+        <MudTd DataLabel="Email">@context.Email</MudTd>
+        <MudTd DataLabel="Phone">@context.Phone</MudTd>
+        <MudTd DataLabel="Address">@context.Address</MudTd>
+        <MudTd>
+            <MudButton Variant="Variant.Text" Color="Color.Secondary" Size="Size.Small" Class="me-1" OnClick="() => Edit(context)">Edit</MudButton>
+            <MudButton Variant="Variant.Text" Color="Color.Error" Size="Size.Small" OnClick="() => Delete(context.Id)">Delete</MudButton>
+        </MudTd>
+    </RowTemplate>
+</MudTable>
 
 @code {
     private List<User> users = new();

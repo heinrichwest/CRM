@@ -4,8 +4,7 @@ A cross-platform Customer Relationship Management system built with .NET MAUI an
 
 ## Features
 - Customer management
-- User management with role selection (Learner or Admin)
-- Sales pipeline tracking
+- Sales pipeline tracking  
 - Contact management
 - Reporting dashboard
 
